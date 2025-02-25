@@ -32,6 +32,14 @@ write.csv(K7data_na, "K7data_na.csv", row.names = FALSE)
 # Check to see if truly those files were created and save properly 
 cat("CSV files created:\n - K7data_no_na.csv (without NA)\n - K7data_na.csv (with only NA)\n")
 
+
+##################################################################################################################################
+#Quick CV plot from ADMIXTURE ANALYSIS
+##################################################################################################################################
+##
+CV <- c(0.71025,0.69185,0.68317,0.67658,0.67369,0.67178,0.67238,0.67096,0.67307,0.67134,0.67354,0.67416)
+plot(CV,type = "o", xlab = "K", ylab = "Cross-validation error")
+
 #########################PCA plot###########################################################
 #########################PCA FROM ADMIX RESULTS WITH ADMIXED INDVS REMOVED 
 #Eigenvec and eigenval data from pca run from unix command line
@@ -49,40 +57,26 @@ pve <- data.frame(PC = 1:20, pve = EigenValue/sum(EigenValue)*100)
 ##PCA plot
 plinkPCA2 <- plinkPCA[,1:2]
 mypop <- read.csv("Admixdata@K5_70Thresholdmini.csv", header = FALSE)
-mypop$V3 <- as.factor(mypop$V3)
-plinkPCA2$pop <- mypop$V3
+mypop$Grp3 <- as.factor(mypop$Grp3)
+plinkPCA2$pop <- mypop$Grp3
 Groups <- plinkPCA2$pop
-#rcolor <- c("gold", "darkmagenta", "red", "chocolate", "springgreen", "darkgreen", "blue")
-#rcolor <- c("red", "chocolate", "cyan", "blue", "darkgreen", "darkmagenta", "coral1",
-            "darkgoldenrod", "springgreen", "gold", "navy", "maroon2", "moccasin", "black", "#FF7F00", "darkturquoise",
-            "orchid1","steelblue4")
-
+####color by population use 5 colors 
+rcolor <- c("gold", "darkmagenta", "red", "chocolate", "springgreen", "darkgreen", "blue")
+####or color by states use 12 colors. remember to switch line 53 to column St for states
 rcolor <- c("red", "chocolate", "cyan", "blue", "darkgreen", "darkmagenta","springgreen", "gold", "maroon2", "moccasin", "#FF7F00", "darkturquoise")
-
-pdf("PCA FOR FERAL_HEMP DATA@K70 BY STATES.pdf")
-ggplot(plinkPCA2, aes(x = PC1, y = PC2, color = Groups)) +
-  geom_point(size = 2) +
+##PLOT PCA###
+pca_plot <- ggplot(plinkPCA2, aes(x = PC1, y = PC2, color = Groups)) +
+  geom_point(size = 2.5) +
   scale_color_manual(values = rcolor) + coord_equal()+
   theme_light()+ xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)"))+ ylab(paste0("PC2 (",signif(pve$pve[2], 3), "%)")) +
   theme_bw() +
   theme(axis.line = element_line(color='black'),
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
-        panel.grid.major = element_blank()) 
-dev.off()
-
-##################################################################################################################################
-#ADMIXTURE ANALYSIS
-##################################################################################################################################
-##
-CV <- c(0.71025,0.69185,0.68317,0.67658,0.67369,0.67178,0.67238,0.67096,0.67307,0.67134,0.67354,0.67416)
-plot(CV,type = "o", xlab = "K", ylab = "Cross-validation error")
-
-#######files for admixture (after removing unmapped contigs)
-system("plink --vcf Midferal_QCADmi.vcf --recode --nonfounders --allow-no-sex --allow-extra-chr --out MidferalQCadmi") #PED AND MAP
-system("plink --file MidferalQCadmi --make-bed --nonfounders --allow-no-sex --allow-extra-chr --out MidferalQCadmibed")
-# install pophelper package from GitHub
-remotes::install_github('royfrancis/pophelper')
+        panel.grid.major = element_blank(),
+        axis.text = element_text(face = "bold"),
+        axis.title = element_text(face = "bold"))
+ggsave("pca_admix.pdf", plot = pca_plot, width = 7.5, height = 5.7, units = "in", dpi = 300)
 
 ######################################################################################################
 ##DAPC Analysis
