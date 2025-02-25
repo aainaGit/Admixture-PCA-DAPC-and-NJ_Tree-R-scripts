@@ -85,7 +85,6 @@ library(adegenet)
 library(vcfR)
 library(ggplot2)
 library(poppr)
-setwd("/Users/macbookair/Desktop/Arl_2024")
 vcf <- read.vcfR("SNPs.merged@K7Final.vcf", verbose = FALSE )
 gid <- vcfR2genind(vcf, return.alleles = TRUE)
 class(gid)
@@ -119,8 +118,6 @@ dev.off()
 #############################################################################################################
 # Dist.matrix already generated in Linux PLINK 
 #load distance matrix from PLINK
-setwd("/Users/macbookair/Desktop/Rexercise")
-setwd("/Users/macbookair/Desktop/Arl_2024")
 library(vcfR)
 library(ape)
 library(phangorn)
