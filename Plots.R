@@ -1,4 +1,8 @@
-################Group Assignment Based on 0.7% Threshold from ADMIX Data #############################
+################################### DEALING WITH ADMIXTURE DATA SETS #############################################################################
+################################### Remember to always set your working directory appropriately ####################
+##After you run admix and get the Q matrix results, attach the samples names to the first column and filter based on 70 or whatever % you prefer
+##A new column Grp with samples assigned into unique grps based on your chosen % will be created
+################EXAMPLE: Group Assignment Based on 0.7% Threshold from ADMIX Data #############################
 # Assign groups based on the highest value > 0.7 among Q1:Q7
 data <- read.csv("metadata@K7.csv", header = FALSE)
 data$Grp <- apply(data[, 3:9], 1, function(row) {
@@ -12,18 +16,20 @@ data$Grp <- apply(data[, 3:9], 1, function(row) {
 
 # Print the data frame with the assigned groups
 #print(data)
+# Write out and save data to your local computer for future use
 write.csv(data, "admix@K7data.csv", row.names = FALSE)
-# Create a data frame without NA in the Grp column
+
+# To Create a data frame without NA (non-missing) in the Grp column
 K7data_no_na <- data[!is.na(data$Grp), ]
 
-# Create a data frame with only rows that have NA in the Grp column
+# To Create a data frame with only rows that have NA (missing data) in the Grp column
 K7data_na <- data[is.na(data$Grp), ]
 
-# Write the data frames to CSV files
+# Write the data frames to CSV files saved to your working directory folder
 write.csv(K7data_no_na, "K7data_no_na.csv", row.names = FALSE)
 write.csv(K7data_na, "K7data_na.csv", row.names = FALSE)
 
-# Print confirmation message
+# Check to see if truly those files were created and save properly 
 cat("CSV files created:\n - K7data_no_na.csv (without NA)\n - K7data_na.csv (with only NA)\n")
 
 #########################PCA plot###########################################################
