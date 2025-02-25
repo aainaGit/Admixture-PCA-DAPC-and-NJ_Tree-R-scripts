@@ -34,7 +34,8 @@ cat("CSV files created:\n - K7data_no_na.csv (without NA)\n - K7data_na.csv (wit
 
 #########################PCA plot###########################################################
 #########################PCA FROM ADMIX RESULTS WITH ADMIXED INDVS REMOVED 
-setwd("/Users/macbookair/Desktop/Arl_2024")
+#Eigenvec and eigenval data from pca run from unix command line
+#Install required libraries and run the scrip below
 library(tidyverse)
 library(ggplot2)
 plinkPCA <- read_table("SNPs.QCnoadmix@k70.prune_pca.eigenvec", col_names = F)
