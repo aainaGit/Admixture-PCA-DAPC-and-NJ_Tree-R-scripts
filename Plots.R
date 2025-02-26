@@ -1,4 +1,4 @@
-################################### DEALING WITH ADMIXTURE DATA SETS #############################################################################
+#RVERSION 4.3.2 ################################## DEALING WITH ADMIXTURE DATA SETS #############################################################################
 ################################### Remember to always set your working directory appropriately ####################
 ##After you run admix and get the Q matrix results, attach the samples names to the first column and filter based on 70 or whatever % you prefer
 ##A new column Grp with samples assigned into unique grps based on your chosen % will be created
